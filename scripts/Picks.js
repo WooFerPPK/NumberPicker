@@ -16,10 +16,9 @@ export class Picks {
             highThreshold: options.highThreshold,
             minSumNumber: options.minSumNumber,
             maxSumNumber: options.maxSumNumber,
-            repeatHitAmount: options.repeatHitAmount,
-            highAndLowValidAmounts: options.highAndLowValidAmounts,
-            evenAndOddValidAmounts: options.evenAndOddValidAmounts
+            repeatHitAmount: options.repeatHitAmount
         });
+        this.checkListResults = {};
         this.result = [];
     }
 
@@ -53,24 +52,21 @@ export class Picks {
         this.RuleCheck.numbers = numbers;
 
         const checkList = this.RuleCheck.runRulesChecklist();
+        this.checkListResults = checkList;
 
-        let ruleBroken = false;
-
-        Object.entries(checkList).forEach((item) => {
-            if (checkList[item] === false) {
-                ruleBroken = true;
-            }
-        });
-
-        if (ruleBroken === false) {
-            return numbers;
+        for (const item in checkList) {
+          if (checkList[item] === false) {
+              return [];
+          }
         }
-
-        return [];
+        return numbers;
     }
 
     run() {
+	const maxLoops = 1000;
+        let limiter = 0;
         do {
+            limiter++;
             const numbers = this.generateNumbers();
 
             if (this.duplicateNumberCheck(numbers) === true) {
@@ -79,6 +75,8 @@ export class Picks {
                 this.result = this.checkIfValid(numbers);
             }
         }
-        while (this.result.length === 0);
+        while (this.result.length === 0 && limiter <= maxLoops);
+	this.checkListResults.tries = limiter;
+        console.log(this.checkListResults);
     }
 }
