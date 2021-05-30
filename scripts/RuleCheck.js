@@ -5,8 +5,6 @@ export class RuleCheck {
         this.minSumNumber = options.minSumNumber;
         this.maxSumNumber = options.maxSumNumber;
         this.repeatHitAmount = options.repeatHitAmount;
-        this.highAndLowValidAmounts = options.highAndLowValidAmounts;
-        this.evenAndOddValidAmounts = options.evenAndOddValidAmounts;
     }
 
     get numbers() {
@@ -18,69 +16,44 @@ export class RuleCheck {
     }
 
     highsAndLowsCheck() {
-        const validAmounts = this.highAndLowValidAmounts;
+      const numbersLength = this.numbers.length;
+      const numberDivded = numbersLength / 2;
+      const numberLimits = {
+        floor: Math.floor(numberDivded),
+        ceil: Math.ceil(numberDivded)
+      }
+      let highNumberAmount = 0;
 
-        const rangeTypes = { highs: 0, lows: 0 };
-
-        this.numbers.forEach((number) => {
-            if (number >= this.highThreshold) {
-                rangeTypes.highs += 1;
-            } else {
-                rangeTypes.lows += 1;
-            }
-        });
-
-        let highValid = false;
-        validAmounts.high.forEach((amount) => {
-            if (rangeTypes.highs === amount) {
-                highValid = true;
-            }
-        });
-
-        let lowValid = false;
-        validAmounts.low.forEach((amount) => {
-            if (rangeTypes.lows === amount) {
-                lowValid = true;
-            }
-        });
-
-        if (highValid === true && lowValid === true) {
-            return true;
+      for(let i = 0; i <= numbersLength ; i++) {
+        if (this.numbers[i] >= this.highThreshold) {
+          highNumberAmount += 1;
         }
+      }
 
-        return false;
+      if (highNumberAmount === numberLimits.floor || highNumberAmount === numberLimits.ceil) {
+        return true;
+      }
+      return false;
     }
 
     oddAndEvenCheck() {
-        const validAmounts = this.evenAndOddValidAmounts;
-        const numberType = { even: 0, odd: 0 };
-
-        this.numbers.forEach((number) => {
-            if (number % 2 == 0) {
-                numberType.even += 1;
-            } else {
-                numberType.odd += 1;
-            }
-        });
-
-        let evenValid = false;
-        validAmounts.even.forEach((amount) => {
-            if (numberType.even === amount) {
-                evenValid = true;
-            }
-        });
-
-        let oddValid = false;
-        validAmounts.odd.forEach((amount) => {
-            if (numberType.odd === amount) {
-                oddValid = true;
-            }
-        });
-
-        if (evenValid === true && oddValid === true) {
-            return true;
+        const numbersLength = this.numbers.length;
+        const numberDivded = numbersLength / 2;
+        const numberLimits = {
+          floor: Math.floor(numberDivded),
+          ceil: Math.ceil(numberDivded)
         }
-
+        let evenNumberAmount = 0;
+      
+        for(let i = 0; i <= numbersLength ; i++) {
+          if (this.numbers[i] % 2 == 0) {
+            evenNumberAmount += 1;
+          }
+        }
+      
+        if (evenNumberAmount === numberLimits.floor || evenNumberAmount === numberLimits.ceil) {
+          return true;
+        }
         return false;
     }
 
@@ -104,7 +77,8 @@ export class RuleCheck {
             }
             return false;
         }
-        return false;
+	// If null, then this is valid because no numbers to check for repeats was inputed.
+        return true;
     }
 
     runRulesChecklist() {

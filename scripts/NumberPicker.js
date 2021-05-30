@@ -21,10 +21,7 @@ function pickNumbers(pastNumbers) {
         repeatHitAmount: 1,
         // What number will the program consider "High". This is used to determine the High and
         // Low value amount.
-        highThreshold: 5,
-        // The array numbers should be the sum of total number index.
-        highAndLowValidAmounts: { high: [1], low: [2] },
-        evenAndOddValidAmounts: { even: [1], odd: [2] }
+        highThreshold: 5
     });
     picks.run();
     return picks.result;
@@ -54,12 +51,12 @@ function storeResult(numbers) {
 function displayHistory(numbers) {
     const historyList = document.getElementById('history');
     const listItem = document.createElement('li');
-    listItem.innerText = numbers.toString();
+    listItem.innerText = (numbers.length != 0) ? numbers.toString() : "Error";
     historyList.appendChild(listItem);
 }
 
 function displayResult(pickedNumbers) {
-    document.getElementById('result').innerText = pickedNumbers.toString();
+    document.getElementById('result').innerText = (pickedNumbers.length !== 0) ? pickedNumbers.toString() : "Error";
 }
 
 function runButtonAction() {
