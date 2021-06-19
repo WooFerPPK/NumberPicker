@@ -21,11 +21,11 @@ export class Picks {
         this.checkListResults = {};
         this.result = [];
     }
-
+    
     get result() {
         return this._result;
     }
-
+    
     set result(value) {
         if (value.length !== 0) {
             // Sort the numbers for human reasons
@@ -34,41 +34,44 @@ export class Picks {
             this._result = [];
         }
     }
-
+    
     generateNumbers() {
         return this.numberRandomizer.createNumbers();
     }
-
+    
     duplicateNumberCheck(numbers) {
         return this.numberTools.duplicatesCheck(numbers);
     }
-
+    
     sortNumbers(numbers) {
         return this.numberTools.sortLowestToHighest(numbers);
     }
-
+    
     checkIfValid(numbers) {
+        let valid = false;
         // Check if the numbers follow the rules.
         this.RuleCheck.numbers = numbers;
-
+        
         const checkList = this.RuleCheck.runRulesChecklist();
         this.checkListResults = checkList;
 
         for (const item in checkList) {
-          if (checkList[item] === false) {
-              return [];
-          }
+            if (checkList[item] === false) {
+                return [];
+            }
         }
         return numbers;
-    }
 
+
+    }
+    
     run() {
-	const maxLoops = 1000;
+        const maxLoops = 1000;
         let limiter = 0;
         do {
             limiter++;
             const numbers = this.generateNumbers();
-
+            
             if (this.duplicateNumberCheck(numbers) === true) {
                 // No Duplicates found
                 // Check if the numbers match the rules. It will return nothing if they do not.
@@ -76,7 +79,7 @@ export class Picks {
             }
         }
         while (this.result.length === 0 && limiter <= maxLoops);
-	this.checkListResults.tries = limiter;
+        this.checkListResults.tries = limiter;
         console.log(this.checkListResults);
     }
 }
