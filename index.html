@@ -1,21 +1,53 @@
 <!DOCTYPE html>
+<head>
+    <style>
+        .selected {
+            color: white;
+            background-color: black;
+            font-weight: bold;
+        }
+        #history {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+        #history li {
+            cursor: pointer;
+            flex: 0 0 auto;
+        }
+        .row {
+            display: block;
+        }
+        #board td {
+            border: 1px solid black;
+            text-align: center;
+            width:25px;
+            height: 25px;
+        }
+    </style>
+</head>
 <html>
-    <body>
+<body>
+    <div class="row">
         <div>
             <h3>Generate Numbers</h3>
             <input placeholder="Previous Numbers" id="numbers" type="text" />
-            <button id="run">Generate</button>
+            <button id="run">Generate New Numbers</button>
         </div>
         <div>
-            <h3>Result</h3>
-            <span id="result"></span>
+            <div id="board"></div>
+            <!-- <h3>Result</h3>
+            <span id="result"></span> -->
         </div>
+    </div>
+    <div class="row">
+        
         <div>
             <h3>History</h3>
             <ul id="history">
                 
             </ul>
         </div>
-        <script src="scripts/NumberPicker.js" type="module"></script>
-    </body>
+    </div>
+    <script src="scripts/NumberPicker.js" type="module"></script>
+</body>
 </html>
